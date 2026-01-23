@@ -93,6 +93,26 @@ CSSPixels TableFormattingContext::run_caption_layout(CSS::CaptionSide phase, Ava
         }
 
         auto const& caption_state = m_state.get(child_box);
+
+        // DEBUG: Log caption dimensions to understand margin collapsing behavior
+        dbgln("=== Caption Layout Debug ===");
+        dbgln("Caption side: {}", phase == CSS::CaptionSide::Top ? "top" : "bottom");
+        dbgln("  margin_top: {}", caption_state.margin_top);
+        dbgln("  border_top: {}", caption_state.border_top);
+        dbgln("  border_top_collapsed: {}", caption_state.border_top_collapsed());
+        dbgln("  padding_top: {}", caption_state.padding_top);
+        dbgln("  content_height: {}", caption_state.content_height());
+        dbgln("  padding_bottom: {}", caption_state.padding_bottom);
+        dbgln("  border_bottom: {}", caption_state.border_bottom);
+        dbgln("  border_bottom_collapsed: {}", caption_state.border_bottom_collapsed());
+        dbgln("  margin_bottom: {}", caption_state.margin_bottom);
+        dbgln("  ---");
+        dbgln("  margin_box_top(): {}", caption_state.margin_box_top());
+        dbgln("  margin_box_bottom(): {}", caption_state.margin_box_bottom());
+        dbgln("  border_box_height(): {}", caption_state.border_box_height());
+        dbgln("  margin_box_height(): {}", caption_state.margin_box_height());
+        dbgln("============================");
+
         if (phase == CSS::CaptionSide::Top) {
             m_state.get_mutable(table_box()).set_content_y(caption_state.content_height() + caption_state.margin_box_bottom());
         } else {
